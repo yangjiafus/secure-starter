@@ -1,0 +1,39 @@
+group 'com.ctspcl'
+version '1.0.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+apply plugin: 'maven-publish'
+apply plugin: 'java-library'
+
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-autoconfigure"
+    compile "org.springframework:spring-core"
+    compile "org.springframework:spring-web"
+    compile "org.springframework:spring-webmvc"
+    compile "org.springframework:spring-beans"
+    compile "org.springframework.cloud:spring-cloud-commons"
+    compile "com.fasterxml.jackson.core:jackson-core"
+    compile "com.fasterxml.jackson.core:jackson-databind"
+    compile 'com.ctspcl:ctspcl-common:1.0.4'
+    compile 'com.ctspcl:common-log-aspect:1.0.3'
+    compile "org.slf4j:slf4j-api"
+    compile "com.google.guava:guava:26.0-jre"
+
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            def repo = ctspclReleaseRepository
+            if (project.version.toString().contains("SNAPSHOT")) {
+                repo = ctspclSnapshotRepository
+            }
+            repository(url: repo) {
+                authentication(userName: "deploy", password: "deploy")
+            }
+        }
+    }
+}
