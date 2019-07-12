@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type='text/javascript'>
+   
+$.ajax({
+    url: "http://webapi.dev9.ctstest.com:8080/user/api/common/sms/code/check",
+    data: {'data':'S1h4TEFvVnYzWVhRcVdWVmMyR1dkRHhUcWU5bEkyTm9hSTVKc1BCcjlISUw3U000NjB4Y200Z21oMXFONkRrTHV0eEtvYXFUd0dqSC9MTEhXL3RWWUE9PQ=='},
+    type: "POST",
+    dataType: "json",
+	contentType:'application/json;charset=utf-8',
+	beforeSend: function(request) {
+		request.setRequestHeader("sign", "56e61c707413a38150d4c842576cf62d");
+	},
+    success: function(data) {
+        console.log(data);
+    }
+});
+
+</script>
+</body>
+</html>

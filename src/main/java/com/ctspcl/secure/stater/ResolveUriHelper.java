@@ -1,4 +1,4 @@
-package com.ctspcl.secure.stater.config;
+package com.ctspcl.secure.stater;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.annotation.GetMapping;

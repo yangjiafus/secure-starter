@@ -1,11 +1,11 @@
-package com.ctspcl.secure.stater;
+package com.ctspcl.secure.stater.advice;
 
 import com.ctspcl.common.exception.BizException;
 import com.ctspcl.common.exception.ErrorCode;
 import com.ctspcl.common.log.annotation.EnableLog;
-import com.ctspcl.secure.stater.config.DecryptUtil;
-import com.ctspcl.secure.stater.config.ResolveUriHelper;
-import com.ctspcl.secure.stater.config.SecretCoreValidator;
+import com.ctspcl.secure.stater.DecryptUtil;
+import com.ctspcl.secure.stater.ResolveUriHelper;
+import com.ctspcl.secure.stater.SecretCoreValidator;
 import com.ctspcl.secure.stater.config.SecretProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 
-import static com.ctspcl.secure.stater.config.ResolveUriHelper.SIGN;
+import static com.ctspcl.secure.stater.ResolveUriHelper.SIGN;
 
 /**
  * @author JiaFu.yang
@@ -77,7 +77,7 @@ public class RequestAdvice implements RequestBodyAdvice {
                     try {
                         //对整个body进行解密
                         String realBody = DecryptUtil.decrypt(new String(new BASE64Decoder().decodeBuffer(bodyStr)),
-                                secretConfig.getPriKeySecret().getBytes(),secretConfig.getPubKeySecret().getBytes(),null);
+                                secretConfig.getPriKeySecret().getBytes(),secretConfig.getIvKeySecret().getBytes(),null);
                         validator.validSignature(realBody,sign);
                         return new ByteArrayInputStream(realBody.getBytes("utf-8"));
                     } catch (Exception e) {

@@ -16,7 +16,11 @@ public class SecretProperty {
 
     private String priKeySecret;
 
-    private String pubKeySecret;
+    private String ivKeySecret;
+
+    private Boolean onOff;
+
+    private Boolean onOffAuthorize;
 
     private List<String> whitelist;
 

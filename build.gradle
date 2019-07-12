@@ -1,5 +1,5 @@
 group 'com.ctspcl'
-version '1.0.0-SNAPSHOT'
+version '1.0.1-SNAPSHOT'
 
 apply plugin: 'java'
 
@@ -9,6 +9,9 @@ apply plugin: 'java-library'
 
 
 dependencies {
+    compile 'com.ctspcl:ctspcl-common:1.0.4'
+    compile 'com.ctspcl:common-log-aspect:1.0.3'
+    compile "com.google.guava:guava:26.0-jre"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.springframework:spring-core"
     compile "org.springframework:spring-web"
@@ -17,11 +20,12 @@ dependencies {
     compile "org.springframework.cloud:spring-cloud-commons"
     compile "com.fasterxml.jackson.core:jackson-core"
     compile "com.fasterxml.jackson.core:jackson-databind"
-    compile 'com.ctspcl:ctspcl-common:1.0.4'
-    compile 'com.ctspcl:common-log-aspect:1.0.3'
     compile "org.slf4j:slf4j-api"
-    compile "com.google.guava:guava:26.0-jre"
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-zuul:1.4.4.RELEASE"
 
+
+
+    testCompile 'junit:junit:4.12'
 }
 
 uploadArchives {

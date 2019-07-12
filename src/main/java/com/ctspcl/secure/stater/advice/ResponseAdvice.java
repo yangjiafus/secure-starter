@@ -1,9 +1,9 @@
-package com.ctspcl.secure.stater;
+package com.ctspcl.secure.stater.advice;
 
 import com.ctspcl.common.general.Result;
-import com.ctspcl.secure.stater.config.DecryptUtil;
-import com.ctspcl.secure.stater.config.ResolveUriHelper;
-import com.ctspcl.secure.stater.config.SecretCoreValidator;
+import com.ctspcl.secure.stater.DecryptUtil;
+import com.ctspcl.secure.stater.ResolveUriHelper;
+import com.ctspcl.secure.stater.SecretCoreValidator;
 import com.ctspcl.secure.stater.config.SecretProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +54,7 @@ public class ResponseAdvice implements ResponseBodyAdvice {
                     }
                     try {
                         //对data加密
-                        String encodeStr = DecryptUtil.encrypt(jacksonMapper.writeValueAsString(data),secretConfig.getPriKeySecret(),secretConfig.getPubKeySecret(),null);
+                        String encodeStr = DecryptUtil.encrypt(jacksonMapper.writeValueAsString(data),secretConfig.getPriKeySecret(),secretConfig.getIvKeySecret(),null);
                         result.setData(new BASE64Encoder().encode(encodeStr.getBytes()).replaceAll(System.getProperty("line.separator"), ""));
                         jacksonValue.setValue(result);
                         return jacksonValue;

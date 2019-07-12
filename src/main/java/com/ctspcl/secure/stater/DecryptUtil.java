@@ -1,5 +1,7 @@
-package com.ctspcl.secure.stater.config;
+package com.ctspcl.secure.stater;
 
+import com.ctspcl.common.exception.BizException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -13,12 +15,25 @@ import javax.crypto.spec.SecretKeySpec;
  * @description  AES-128-CBC，数据采用PKCS#7填充
  * @date 2019/7/4
  **/
+@Slf4j
 public class DecryptUtil {
+
+    public static final String CHARSET_UTF_8 = "UTF-8";
+
+    public static final String KEY_SPEC_AES = "AES";
+
+    public static final String CIPHER_ALGORITHM = "AES/CBC/PKCS5Padding";
+
+    public static final String LINE_SEPARATOR = "line.separator";
+
+
+
+
 
     public static String decrypt(byte[] encryptedDataByte, String charsetName, byte[] sessionKeyByte, byte[] ivByte) throws Exception {
         try {
-            SecretKeySpec sKeySpec = new SecretKeySpec(sessionKeyByte, "AES");
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKeySpec sKeySpec = new SecretKeySpec(sessionKeyByte, KEY_SPEC_AES);
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             IvParameterSpec iv = new IvParameterSpec(ivByte);
             cipher.init(Cipher.DECRYPT_MODE, sKeySpec, iv);
             byte[] original = cipher.doFinal(encryptedDataByte);
@@ -30,7 +45,8 @@ public class DecryptUtil {
             }
             return originalString;
         } catch (Exception ex) {
-            return null;
+            log.error("解密请求Body失败：{}",new String(encryptedDataByte));
+            throw new BizException("Z00002","请求解密开小差，拒绝服务");
         }
     }
 
@@ -39,9 +55,9 @@ public class DecryptUtil {
     }
 
     public static String encrypt(String encryptedData,String sessionKey,String iv,String charsetName) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         byte[] raw = sessionKey.getBytes();
-        SecretKeySpec sKeySpec = new SecretKeySpec(raw, "AES");
+        SecretKeySpec sKeySpec = new SecretKeySpec(raw, KEY_SPEC_AES);
         IvParameterSpec ivp = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, sKeySpec, ivp);
         byte[] encrypted;
@@ -50,7 +66,7 @@ public class DecryptUtil {
         }else {
             encrypted = cipher.doFinal(encryptedData.getBytes());
         }
-        return new BASE64Encoder().encode(encrypted).replaceAll(System.getProperty("line.separator"), "");
+        return new BASE64Encoder().encode(encrypted).replaceAll(System.getProperty(LINE_SEPARATOR), "");
     }
 
 }

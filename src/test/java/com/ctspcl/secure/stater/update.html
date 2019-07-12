@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type='text/javascript'>
+   
+$.ajax({
+    url: "http://webapi.dev9.ctstest.com:8080/user/api/common/customer/merge",
+    data: {'data':'c0tsekpxL1RKQXJyNWtqcjBjd0NpbVFORldTZEYyVjFiMlNYekxXUFV1TE9qNklGNXlGc1grYmpxYm0wWXo3bHYzOVUwandhR3NQT01sdVhLMTlqZnJEcFdhaHk4aHo2UnRoNHdIUFhzcjQ9'},
+    type: "POST",
+    dataType: "json",
+	contentType:'application/json;charset=utf-8',
+	beforeSend: function(request) {
+		request.setRequestHeader("sign", "22b316060504ec3f520ac9c025886928");
+		request.setRequestHeader("Authorization", "4aee4656cdaf48c8b80cdd39593d5f44");
+		
+	},
+    success: function(data) {
+        console.log(data);
+    }
+});
+
+</script>
+</body>
+</html>

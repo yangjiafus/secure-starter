@@ -1,7 +1,8 @@
-package com.ctspcl.secure.stater.config;
+package com.ctspcl.secure.stater;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.entity.ContentType;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -17,8 +18,8 @@ import java.util.Map;
 public class Test {
 
     public static void main(String[] args) throws Exception{
-        String json = "{\"idCard\":\"500241198707110338\",\"name\":\"杨佳富\",\"productType\":1,\"useType\":\"0\"}";
-        String encode = DecryptUtil.encrypt(json,"fdshdfsklsjdesdf","poskhegsnlekhsdf",null);
+        String json = "{\"productCode\":\"210101\"}";
+        String encode = DecryptUtil.encrypt(json,"fdshdfsklsjdesdf","poskhegsnlekhsdf",ContentType.APPLICATION_JSON.getCharset().name());
         System.out.println("ASE 加密: "  + encode);
 
         MessageDigest md = MessageDigest.getInstance("MD5");
@@ -30,12 +31,12 @@ public class Test {
         System.out.println("base64 加密: "  + base64Encode);
         String base64Decode = new String (new BASE64Decoder().decodeBuffer(base64Encode));
         System.out.println("base64 解密: "  + base64Decode);
-        String decode = DecryptUtil.decrypt(base64Decode,"fdshdfsklsjdesdf".getBytes(),"poskhegsnlekhsdf".getBytes(),null);
+
+        base64Decode = "udxEzaJR/BUlWCANtTWslj+gp5KEb91F7Aet0AXY3ixqofb8AH4TPmZqN6guGhq0xzjpYNiUgWuIRudhBp+50vx96cmqNtwSZfJL5XBH5EEIdD6Y3KiS9DOD7Pu59qAA2dqdHBuV3FYiXQB2m/t3HD2CBxgK47/HkdQGhYHOliYS+xiKLvyi3RPTLlt9dQET";
+        String decode = DecryptUtil.decrypt(base64Decode,"fdshdfsklsjdesdf".getBytes(),"poskhegsnlekhsdf".getBytes(),ContentType.APPLICATION_JSON.getCharset().name());
         System.out.println("解密: " + decode);
 
+        System.out.println("--end--");
 
-        ObjectMapper jacksonMapper = new ObjectMapper();
-        Map map = jacksonMapper.readValue(json,Map.class);
-        System.out.println("MAp：  "+map);
     }
 }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script type='text/javascript'>
+   
+$.ajax({
+    url: "http://webapi.dev9.ctstest.com:8080/user/api/customer/queryQuota",
+    data: {'data':'RUppZlZUVDZvY2U3QWNMV3Rtd3puYWlsM3o5MWNLTWJTU3doa2lIWXZ2ST0='},
+    type: "GET",
+    dataType: "json",
+	contentType:'application/json;charset=utf-8',
+	beforeSend: function(request) {
+		request.setRequestHeader("sign", "756cec4d6054a6c64002c37d32dadd27");
+		request.setRequestHeader("Authorization", "a4923a160db54b9fab63cdc691b54a15");
+	},
+    success: function(data) {
+        console.log(data);
+    }
+});
+
+</script>
+</body>
+</html>
