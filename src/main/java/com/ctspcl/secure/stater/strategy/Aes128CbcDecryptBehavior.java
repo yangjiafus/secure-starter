@@ -7,6 +7,7 @@ import com.ctspcl.secure.stater.RequestUtil;
 import com.ctspcl.secure.stater.SecretCoreValidator;
 import com.ctspcl.secure.stater.config.SecretProperty;
 import com.ctspcl.secure.stater.wrapper.SecretRequestWrapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.zuul.context.RequestContext;
 import org.apache.http.entity.ContentType;
 import org.springframework.util.StringUtils;
@@ -14,6 +15,7 @@ import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
+import java.util.Map;
 
 /**
  * @author JiaFu.yang
@@ -25,6 +27,8 @@ public class Aes128CbcDecryptBehavior implements FilterBehavior {
     private SecretProperty secretProperty;
 
     private SecretCoreValidator validator;
+
+    private final ObjectMapper jacksonMapper = new ObjectMapper();
 
     public Aes128CbcDecryptBehavior(SecretProperty secretProperty, SecretCoreValidator validator) {
         this.secretProperty = secretProperty;
@@ -40,8 +44,8 @@ public class Aes128CbcDecryptBehavior implements FilterBehavior {
         if (StringUtils.hasText(body)){
             try {
                 body = URLDecoder.decode(body,"utf-8");
-                int index = body.indexOf("=");
-                String encryptBody = body.substring(index + 1,body.indexOf("&") != -1?body.indexOf("&"):body.length());
+                Map<String,String> map = jacksonMapper.readValue(body,Map.class);
+                String encryptBody = map.get("data");
                 realBody = DecryptUtil.decrypt(new String(new BASE64Decoder().decodeBuffer(encryptBody)),
                         secretProperty.getPriKeySecret().getBytes(),secretProperty.getIvKeySecret().getBytes(),ContentType.APPLICATION_JSON.getCharset().name());
                 String sign = RequestUtil.getSign(request);

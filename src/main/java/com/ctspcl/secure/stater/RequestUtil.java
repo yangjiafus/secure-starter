@@ -22,6 +22,7 @@ public class RequestUtil {
 
     public static final String SIGN = "sign";
 
+    public static final String APP_ID = "appId";
 
     public static String getSign(HttpServletRequest request){
         return request.getHeader(SIGN);
@@ -29,6 +30,10 @@ public class RequestUtil {
 
     public static String getAuthorization(HttpServletRequest request){
         return request.getHeader(AUTHORIZATION);
+    }
+
+    public static String getAppId(HttpServletRequest request){
+        return request.getHeader(APP_ID);
     }
 
     public static String getBodyString(HttpServletRequest request) {
